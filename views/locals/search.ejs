@@ -1,0 +1,54 @@
+<div class="row my-5">
+    <div class="col">
+        <h1 class="text-center">지역검색</h1>
+        <!--검색 폼-->
+        <div class="row mb-2 justify-content-end">
+            <form name="frm" class="col-6 col-md-4 col-lg-3">
+                <div class="input-group">
+                    <input name="query" class="form-control" value="인하대학교">
+                    <button class="btn btn-primary">검색</button>
+                </div>
+            </form>
+        </div>
+        <div id="div_locals"></div>
+    </div>
+</div>
+<!--템플릿-->
+<script type="x-handlebars-template" id="temp_locals">
+    <table class="table table-striped">
+        {{#each documents}}
+        <tr>
+            <td>{{place_name}}</td>
+            <td>{{address_name}}</td>
+            <td>{{phone}}</td>
+        </tr>
+        {{/each}}
+    </table>
+</script>
+
+<script>
+    let query=$(frm.query).val();
+    let page=1;
+    let size=5;
+    getLocals();
+    $(frm).on("submit", function(e){
+        e.preventDefault();
+        query=$(frm.query).val();
+        page=1;
+        getLocals();
+    })
+    function getLocals(){
+        $.ajax({
+            type:"get",
+            url:"https://dapi.kakao.com/v2/local/search/keyword.json",
+            headers: {"Authorization":"KakaoAK 87198194c0404fa3586c6ca874e40491"},
+            data:{query:query, page:page, size:size},
+            success:function(data){
+                console.log(data);
+                let temp = Handlebars.compile($("#temp_locals").html());
+                let html = temp(data);
+                $("#div_locals").html(html);
+            }
+        })
+    }
+</script>
