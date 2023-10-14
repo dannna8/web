@@ -9,8 +9,11 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/books">도서검색</a>
           </li>
-<li class="nav-item">
+          <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/locals">지역검색</a>
+          </li>
+          <li class="nav-item" id="cart" style="display: none;">
+            <a class="nav-link active" aria-current="page" href="/books/cart">장바구니</a>
           </li>
         </ul>
         <ul class="navbar-nav d-flex">
@@ -28,8 +31,9 @@
     </div>
   </nav>
   <script>
+    // 아이디 #, 네임, 클래스 각각 알아놓기
     if(sessionStorage.getItem("email")){
-      $("#login, #email, #logout").toggle();
+      $("#login, #email, #logout, #cart").toggle(); // 토글: 보이는건 안보이게, 안보이느건 보이게
       $("#email a").html(sessionStorage.getItem("email"));
     }
 

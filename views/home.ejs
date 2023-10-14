@@ -43,7 +43,7 @@
                 </div>
                 <div class="card-footer" style="font-size:0.8rem;">
                     {{format price}}
-                    <i class="bi bi-cart3 float-end" book="{{book @this}}"></i>
+                    <i class="cart bi bi-cart3 float-end" book1="{{book @this}}"></i> 
                 </div>
             </div>
         </div>
@@ -68,21 +68,39 @@
     })
 </script>
 
-<script>
+<script type="module">//*****시험에 나옴: 임포트 하려면 모듈 타입이어야함
+    import {app} from "/javascripts/firebase.js";
+    import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js";
+    const db=getDatabase(app);//*****app나옴
+
     let query=$(frm.query).val();
     let page=1;
     getBooks();
 
-    //장바구니를 클릭한 경우
-    $("#div_books").on("click", ".bi-cart3", function(){
-        if(!sessionStorage.getItem("email")){
-            location.href="/users/login";
+    //장바구니 아이콘을 클릭한 경우
+    $("#div_books").on("click", ".cart", async function(){
+        //로그인 되었는지 확인하고 안되어있으면 로그인 페이지로 감
+        if(!sessionStorage.getItem("uid")){
+            location.href="/user/login";
+            return;
+
+        }
+
+        //장바구니에 있는지 체크
+        const book = JSON.parse($(this).attr("book1")); //****book1
+        //console.log(book);
+        const ref_cart = ref(db,`cart/${sessionStorage.getItem("uid")}/${book.isbn}`); //isbn:도서번호로 기본키로 사용함
+        const result = await get(ref_cart);
+        //console.log(result.val());
+        if(result.val()){
+            alert("이미 장바구니에 있습니다.")
         }else{
-            //장바구니에 등록
-            const book=JSON.parse($(this).attr("book"));
-            console.log(book);
+            if(!confirm("장바구니에 추가하실래요?")) return;//추가 안하는 겨우
+            set(ref_cart, book);//추가 하는경우
+            alert("장바구니에 추가되었습니다.")
         }
     })
+    
 
     //이미지를 선택한 경우
     $("#div_books").on("click", "img", function(){
