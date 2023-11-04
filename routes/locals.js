@@ -6,4 +6,9 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: '지역검색', pageName:'locals/search.ejs' }); //랜더링하는 확장자는 ejs
 });
 
+//즐겨찾기 페이지로 이동
+router.get('/favorite', function(req,res){
+  res.render('index', {title:'즐겨찾기', pageName:'locals/favorite.ejs'})
+})
+
 module.exports = router;
