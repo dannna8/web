@@ -25,7 +25,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/books', booksRouter);
+app.use('/posts', require('./routes/posts'));
 app.use('/locals', require('./routes/locals'));
+
 
 
 
