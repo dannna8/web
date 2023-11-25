@@ -26,8 +26,8 @@
 </script>
 <script type="module">
     import { app } from "/javascripts/firebase.js";
-    import { getFirestore,collection } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
-    import { query,orderBy,getDocs } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
+    import { getFirestore, collection } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
+    import { query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
     const db = getFirestore(app);
     let page=1; //let은 변수의 값이 변할 수 있음
     const size=3;
@@ -50,6 +50,7 @@
 
         //현재페이지 목록 출력
         const rows=[];
+        
         snapshot.docs.forEach((doc, index)=>{
             const start = (page-1) * size;
             const end = (page * size) -1;
