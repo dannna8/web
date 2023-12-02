@@ -55,7 +55,7 @@
             const start = (page-1) * size;
             const end = (page * size) -1;
             if(index >= start && index <=end){
-                //console.log(index, doc.id, doc.data());
+                //console.log(index, doc.id, doc.data()); //0~2 - 3~5
                 rows.push({index:index+1, id:doc.id, ...doc.data()});
             }
         });
